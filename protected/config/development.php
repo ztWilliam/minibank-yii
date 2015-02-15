@@ -61,11 +61,11 @@ return CMap::mergeArray(
             //暂存微信公众号的id
             'ghDefinition' => array(
                 'ghApiId' => 0, //after registration, you must update this api id
-                'ghName' => '[Your official account name]',
-                'ghId' => 'gh_1c3969385faf',
-                'appId' => 'wx9465d7da03582f1c',
-                'secret' => '9317313b829d316afe252a3438f5ac65',
-                'ghDesc' => '测试旅行用的尾单功能',
+                'ghName' => 'MiniBank',
+                'ghId' => '[identity of your official account]',
+                'appId' => '[AppId of your official account]',
+                'secret' => '[App secret of your official account]',
+                'ghDesc' => 'MiniBank，for kids',
             ),
 
         ),
