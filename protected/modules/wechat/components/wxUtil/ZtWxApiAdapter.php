@@ -10,13 +10,13 @@
 class ZtWxApiAdapter {
     // 根据不同的发布环境，选择不同的url
     //for dev test
-    const WX_API_HOME_URL = 'http://apitest.zhengtuo.net/wxApi/admin/';
+    const WX_API_HOME_URL = 'http://core.wx.dev.zhengtuo.net/wxApi/admin/';
 
     // for demo
-//    const WX_API_HOME_URL = 'http://apidemo.zhengtuo.net/wxApi/admin/';
+//    const WX_API_HOME_URL = 'http://core.wx.demo.zhengtuo.net/wxApi/admin/';
 
     // for release
-//    const WX_API_HOME_URL = 'http://api.51fc.com.cn/wxApi/admin/';
+//    const WX_API_HOME_URL = 'http://core.wx.51fc.com.cn/wxApi/admin/';
 
     const WX_API_SUCCESS_CODE = 0;
 
