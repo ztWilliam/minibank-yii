@@ -416,5 +416,73 @@ class ZtWxApiAdapter {
         }
     }
 
+    /**
+     * 批量发送模版消息
+     * @param $ghId
+     * @param $templateId
+     * @param $targetUrl
+     * @param $topColor
+     * @param $content
+     * @param $toUsers
+     * @return bool
+     * @throws WxAppException
+     */
+    public static function batchSendTemplateMessage($ghId, $templateId, $targetUrl, $topColor, $content, $toUsers)
+    {
+        $url = self::WX_API_HOME_URL . 'templateMessageBatchSend';
+        $data = array();
+
+        $data['ghId'] = $ghId;
+        $data['templateId'] = $templateId;
+        $data['url'] = $targetUrl;
+        $data['topColor'] = $topColor;
+        $data['data'] = FastJSON::encode($content);
+        $data['toUsers'] = FastJSON::encode($toUsers);
+
+        $method = 'POST';
+        $result = self::callRemoteFunc($url, $data, $method);
+
+        if(isset($result)) {
+            return true;
+        } else {
+            throw new WxAppException('系统忙，请稍后重试');
+        }
+
+    }
+
+    /**
+     * 发送单个模版消息
+     *
+     * @param $ghId
+     * @param $templateId
+     * @param $targetUrl
+     * @param $topColor
+     * @param $content
+     * @param $toUser
+     * @return bool
+     * @throws WxAppException
+     */
+    public static function sendTemplateMessage($ghId, $templateId, $targetUrl, $topColor, $content, $toUser)
+    {
+        $url = self::WX_API_HOME_URL . 'templateMessageSend';
+        $data = array();
+
+        $data['ghId'] = $ghId;
+        $data['templateId'] = $templateId;
+        $data['url'] = $targetUrl;
+        $data['topColor'] = $topColor;
+        $data['data'] = FastJSON::encode($content);
+        $data['toUser'] = $toUser;
+
+        $method = 'POST';
+        $result = self::callRemoteFunc($url, $data, $method);
+
+        if(isset($result)) {
+            return true;
+        } else {
+            throw new WxAppException('系统忙，请稍后重试');
+        }
+
+    }
 
 }
