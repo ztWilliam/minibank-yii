@@ -18,6 +18,20 @@
         return $charid;
     }
 
+     public static function create_guid_timestamp($time = '')
+     {
+         //如果所给时间为空，则用当前时间
+         if($time == '') {
+             $timestamp = date('YmdHis');
+         } else {
+             $timestamp = date('YmdHis', strtotime($time));
+         }
+
+         $charid = strtoupper(md5(uniqid(mt_rand(), true)));
+
+         return $timestamp . $charid;
+     }
+
     public static function shrinkStr($rawStr, $key){
         $base32 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZaBcDeFgHiJkLmNoPqRsTuVwXyZ";
 

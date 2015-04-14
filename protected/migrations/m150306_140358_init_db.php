@@ -31,7 +31,9 @@ class m150306_140358_init_db extends CDbMigration {
             CREATE TABLE IF NOT EXISTS `bank` (
               `bankId` varchar(64) NOT NULL,
               `bankName` varchar(50) NOT NULL,
-              `createUserId` varchar(64) NOT NULL COMMENT '创建者的id'
+              `createUserId` varchar(64) NOT NULL COMMENT '创建者的id',
+              `createTime` datetime NOT NULL COMMENT '创建时间',
+              `delTag` tinyint NOT NULL DEFAULT 0
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
             --
