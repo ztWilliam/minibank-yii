@@ -7,14 +7,14 @@ return CMap::mergeArray(
             'fixture'=>array(
                 'class'=>'system.test.CDbFixtureManager',
             ),
-//            'db'=>array(
-//                'connectionString' =>
-//                'mysql:host=localhost;dbname=ztcms_test',
-//                'emulatePrepare' => true,
-//                'username' => 'ztcms',
-//                'password' => 'ztcms+0205',
-//                'charset' => 'utf8',
-//            ),
+            'db'=>array(
+                'connectionString' =>
+                'mysql:host=localhost;dbname=mini_bank_test',
+                'emulatePrepare' => true,
+                'username' => 'test',
+                'password' => '',
+                'charset' => 'utf8',
+            ),
         ),
 	)
 );
