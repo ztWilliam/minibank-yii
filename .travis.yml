@@ -21,6 +21,11 @@ services:
   - memcached
 
 before_script:
+  # make sure that the phpunit and phpunit_selenium are the latest version
+  - pear install phpunit/PHPUnit_Selenium
+  - pear upgrade -f phpunit/PHPUnit_Selenium
+  - phpenv rehash
+
   # get the yii framework files
   - git clone https://github.com/yiisoft/yii.git ../yii
   # create the test database
@@ -31,9 +36,6 @@ before_script:
   - ./protected/yiic migrate
   # change the active directory to the tests
   - cd protected/tests
-  # make sure that the phpunit and phpunit_selenium are the latest version
-#  - pear install phpunit/phpunit_selenium
-#  - pear upgrade -f phpunit/phpunit_selenium
 
 script:
   phpunit unit
