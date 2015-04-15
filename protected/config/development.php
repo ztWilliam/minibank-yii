@@ -60,11 +60,11 @@ return CMap::mergeArray(
             //It is recommed that you should save these informations to your database.
             //暂存微信公众号的id
             'ghDefinition' => array(
-                'ghApiId' => 0, //after registration, you must update this api id
+                'ghApiId' => 1, //after registration, you must update this api id
                 'ghName' => 'MiniBank',
-                'ghId' => '[identity of your official account]',
-                'appId' => '[AppId of your official account]',
-                'secret' => '[App secret of your official account]',
+                'ghId' => 'gh_29feb7e0093c',
+                'appId' => 'wx61f2b244262db5dd',
+                'secret' => '9fdc04d2a1671a620a63b0de70ebf232',
                 'ghDesc' => 'MiniBank，for kids',
             ),
 

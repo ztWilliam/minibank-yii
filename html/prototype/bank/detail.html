@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>我的银行我做主</title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" type="image/png" href="../../../assets/vendor/amazeUI/i/favicon.png">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="../../../assets/vendor/amazeUI/i/app-icon72x72@2x.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="../../../assets/vendor/amazeUI/i/app-icon72x72@2x.png">
+
+    <link rel="stylesheet" href="../../../assets/vendor/amazeUI/css/amazeui.min.css">
+</head>
+<body>
+<div class="am-container">
+    <section class="am-panel am-panel-danger">
+        <header class="am-panel-hd">
+            <h3 class="am-panel-title">利率设置</h3>
+        </header>
+        <div class="am-panel-bd">
+            <div data-am-widget="tabs" class="am-tabs am-tabs-d2">
+                <ul class="am-tabs-nav am-cf ">
+                    <li class="am-active">
+                        <a href="[data-tab-panel-0]">活期利率</a>
+                    </li>
+                    <li class="">
+                        <a href="[data-tab-panel-1]">定期利率</a>
+                    </li>
+                    <li class="">
+                        <a href="[data-tab-panel-2]">贷款政策</a>
+                    </li>
+                </ul>
+                <div class="am-tabs-bd">
+                    <div data-tab-panel-0 class="am-tab-panel am-active">
+
+                        <form class="am-form am-form-horizontal">
+                            <fieldset>
+                                <legend class="am-text-default">想让孩子喜欢，利息必须看得见！</legend>
+
+                                <div class="am-form-group">
+                                    <label for="ipt-current-rate" class="am-u-sm-3 am-form-label am-text-sm">月息</label>
+
+                                    <div class="am-u-sm-9">
+                                        <select id="ipt-current-rate">
+                                            <option value="1" selected>平民：1 分 </option>
+                                            <option value="3">小康：5 分 </option>
+                                            <option value="10">土豪：1 毛 </option>
+                                        </select>
+                                        <span class="am-form-caret"></span>
+                                        <!--<span><input type="text" id="ipt-current-rate" value="3" placeholder="">分</span>-->
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="ipt-current-rate" class="am-u-sm-3 am-form-label am-text-sm">结息期</label>
+                                    <div class="am-u-sm-9">
+                                        <div id="current-rate-period" class="am-form-group">
+                                            <label class="am-radio-inline">
+                                                <input type="radio" checked value="1" name="current-rate-period"> 1个月
+                                            </label>
+                                            <label class="am-radio-inline">
+                                                <input type="radio" value="2" name="current-rate-period"> 2个月
+                                            </label>
+                                            <label class="am-radio-inline">
+                                                <input type="radio" value="3" name="current-rate-period"> 3个月
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-offset-3 am-u-sm-9">
+                                        <hr class="am-divider-default">
+                                        <span class="am-text-default">
+                                            <p>
+                                                试算：假设账户上有100元，每月利息为：
+                                            <span id="label-sample" class="am-text-primary">
+                                                5
+                                            </span>元
+                                            </p>
+                                            <p>
+                                                提示：利率修改之前的已结算利息，仍按之前的利息率计算。
+                                            </p>
+                                        </span>
+
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-10 am-u-sm-offset-4">
+                                        <button type="submit" class="am-btn am-btn-primary">保存</button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </form>
+
+                    </div>
+                    <div data-tab-panel-1 class="am-tab-panel ">
+                        【定期利率】期数 － 利率（月息）（择吉日发布）
+                    </div>
+                    <div data-tab-panel-2 class="am-tab-panel ">
+                        【贷款政策】贷款额度、利率 （即将推出）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="../../../assets/vendor/amazeUI/js/jquery.min.js"></script>
+<script src="../../../assets/vendor/amazeUI/js/amazeui.min.js"></script>
+
+</body>
+</html>

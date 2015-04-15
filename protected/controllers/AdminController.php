@@ -2,7 +2,7 @@
 /**
  * 测试地址：
  *
- * http://wx.test.zhengtuo.net/trip/
+ * http://mini.zhengtuo.net/
  *
  * Created by JetBrains PhpStorm.
  * User: william

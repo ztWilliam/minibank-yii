@@ -8,8 +8,6 @@
  */
 
 class WapBaseController extends CController {
-    public $layout = '/layouts/main';
-
     protected function returnAjaxResult($result)
     {
         header("Content-Type: application/json; charset=utf-8", true);

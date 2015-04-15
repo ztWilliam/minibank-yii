@@ -32,7 +32,16 @@ return array(
 //            'schemaCachingDuration'=>0,
 //            'enableParamLogging'=>true,
 //        ),
-	),
+        'test_db'=>array(
+            'connectionString' =>
+            'mysql:host=localhost;dbname=mini_bank_test',
+            'emulatePrepare' => true,
+            'username' => 'test',
+            'password' => '',
+            'charset' => 'utf8',
+        ),
+
+    ),
 	'params' => array(
 		//add parameters will be used in commands here
 
