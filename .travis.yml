@@ -28,7 +28,7 @@ before_script:
   - ./protected/tests/travis/mysql-setup.sh
   # initiate the test database to the latest version
   - chmod +x ./protected/yiic
-  - ./protected/yiic migrate --connectionID=test_db
+  - ./protected/yiic migrate up
   # change the active directory to the tests
   - cd protected/tests
 
