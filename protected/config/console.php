@@ -18,6 +18,7 @@ return array(
             'migrationPath'=>'application.migrations',
             'migrationTable'=>'tbl_migration',
             'connectionID'=>'test_db',
+            'interactive' => false,
         ),
 
     ),
