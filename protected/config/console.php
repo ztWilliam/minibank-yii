@@ -13,31 +13,38 @@ return array(
     ),
 
     'commandMap'=>array(
+        'migrate'=>array(
+            'class'=>'system.cli.commands.MigrateCommand',
+            'migrationPath'=>'application.migrations',
+            'migrationTable'=>'tbl_migration',
+            'connectionID'=>'test_db',
+        ),
 
     ),
 
 
 	'components'=>array(
-//        'db'=>array(
-//            'class'=>'CDbConnection',
-//
-//            'connectionString'=>'mysql:host=localhost;dbname=ztcms',
-//            'emulatePrepare'=>true,
-//            'username'=>'ztcms',
-//            'password'=>'ztcms+0205',
-//
-//            'charset'=>'utf8',
-//            'tablePrefix'=>'',
-//            'enableProfiling'=>true,
-//            'schemaCachingDuration'=>0,
-//            'enableParamLogging'=>true,
-//        ),
+        'db'=>array(
+            'class'=>'CDbConnection',
+
+            'connectionString'=>'mysql:host=localhost;dbname=mini_bank_dev',
+            'emulatePrepare'=>true,
+            'username'=>'[your_user_name]',
+            'password'=>'[your_password]',
+
+            'charset'=>'utf8',
+            'tablePrefix'=>'',
+            'enableProfiling'=>true,
+            'schemaCachingDuration'=>0,
+            'enableParamLogging'=>true,
+        ),
+
         'test_db'=>array(
-            'connectionString' =>
-            'mysql:host=localhost;dbname=mini_bank_test',
+            'class'=>'system.db.CDbConnection',
+            'connectionString' => 'mysql:host=localhost;dbname=mini_bank_test',
             'emulatePrepare' => true,
             'username' => 'test',
-            'password' => '',
+            'password' => 'test',
             'charset' => 'utf8',
         ),
 
