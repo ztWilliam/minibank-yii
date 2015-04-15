@@ -33,5 +33,5 @@ before_script:
   - cd protected/tests
 
 script:
-  phpunit --colors --verbose unit
+  phpunit unit
   # phpunit --colors --verbose functional
