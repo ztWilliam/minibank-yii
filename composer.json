@@ -1,6 +1,7 @@
 {
     "require": {
         "yiisoft/yii": "1.1.16",
-        "phpunit/phpunit-selenium": "1.4.2"
+        "phpunit/phpunit-selenium": "1.4.2",
+        "phpunit/phpunit-story": "1.0.2"
     }
 }
