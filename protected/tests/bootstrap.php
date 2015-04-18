@@ -17,6 +17,6 @@ Yii::$enableIncludePath = false;
 Yii::setPathOfAlias('tests', dirname(__FILE__));
 Yii::import('tests.*');
 
-new TestApplication($config);
+//new TestApplication($config);
 
-//Yii::createWebApplication($config);
+Yii::createWebApplication($config);
