@@ -8,6 +8,8 @@
  */
 
 class m150306_140358_init_db extends CDbMigration {
+/*
+
     public function up() {
     }
 
@@ -15,7 +17,7 @@ class m150306_140358_init_db extends CDbMigration {
         echo "m150306_140358_init_db does not support migration down.\n";
         return false;
     }
-
+*/
 
     // implement safeUp/safeDown instead if transaction is needed
 
