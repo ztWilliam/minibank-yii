@@ -14,7 +14,7 @@ class BankTest extends CDbTestCase{
     public function testCreateBank(){
         //Test creating new bank by a user who has deleted his bank before.
         //A new Bank object expected
-        $oldBank = $this->banks['toBeCreated'];
+        $oldBank = $this->banks('toBeCreated');
         $userId = $oldBank->createUserId;
         $newBankName = $oldBank->bankName . '(new)';
 
