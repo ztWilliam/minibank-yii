@@ -6,6 +6,7 @@
  * Time: 上午11:58
  * To change this template use File | Settings | File Templates.
  */
+require_once('TestIdGenerator.php');
 
 return array(
     'static' => array(
