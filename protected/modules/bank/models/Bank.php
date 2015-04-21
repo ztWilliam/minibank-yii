@@ -93,10 +93,46 @@ class Bank extends CActiveRecord
         ));
     }
 
-    public static function createBank($userId, $newBankName)
+    public static function createBank($userId, $bankName, $pTrans = null)
     {
-        //todo: create a new Bank object, and save it to DB.
-        return null;
+        //create a new Bank object, and save it to DB.
+        // check the bankName length
+        $bankName = trim($bankName);
+        if($bankName == ''){
+            throw new WxAppException(BankMessages::ERR_BANK_NAME_REQUIRED);
+        }
+        if(mb_strlen($bankName) > 50) {
+            throw new WxAppException(BankMessages::ERR_BANK_NAME_TOO_LONG);
+        }
+
+        //check whether the userId has been used as a creator.(One user shall create only one bank.)
+        $activeBank = self::model()->findByAttributes(array('createUserId' => $userId, 'delTag' => 0));
+        if(isset($activeBank)){
+            throw new WxAppException(BankMessages::ERR_USER_HAS_ONE_ACTIVE_BANK);
+        }
+
+        //create a new Bank object
+        $newBank = new Bank();
+        $newBank->createTime = date('Y-m-d H:i:s');
+        $newBank->bankId = CommonFunction::create_guid_timestamp($newBank->createTime);
+        $newBank->bankName = $bankName;
+        $newBank->createUserId = $userId;
+        $newBank->delTag = 0;
+
+        if(!$newBank->save()){
+            LogWriter::logModelSaveError($newBank, __METHOD__, array(
+                'createUserId' => $userId,
+                'bankName' => $bankName,
+                'bankId' => $newBank->bankId,
+            ));
+
+            if($pTrans !== null){
+                //If there is transaction in caller, the exception shall be thrown to caller.
+                throw new Exception(sprintf(BankMessages::ERR_MODEL_SAVING_FAILED, 'Bank'));
+            }
+        }
+
+        return $newBank;
     }
 
 }
