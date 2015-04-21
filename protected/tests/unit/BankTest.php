@@ -6,6 +6,7 @@
  * Time: 下午7:18
  */
 Yii::import('application.modules.bank.models.*');
+Yii::import('application.modules.bank.components.*');
 
 Yii::import('application.tests.fixtures.TestIdGenerator');
 class BankTest extends CDbTestCase{
