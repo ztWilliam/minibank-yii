@@ -485,4 +485,55 @@ class ZtWxApiAdapter {
 
     }
 
+    public static function setMessageHandler($ghApiId, $handlerUrl)
+    {
+        $url = self::WX_API_HOME_URL . 'setMessageHandler';
+
+        $data['ghId'] = $ghApiId;
+        $data['handler'] = $handlerUrl;
+
+        $method = 'POST';
+        $result = self::callRemoteFunc($url, $data, $method);
+
+        if(isset($result)) {
+            return true;
+        } else {
+            throw new WxAppException('无法注册 消息处理接口，请稍后重试');
+        }
+    }
+
+    public static function setSubscribeHandler($ghApiId, $handlerUrl)
+    {
+        $url = self::WX_API_HOME_URL . 'setSubscribeHandler';
+
+        $data['ghId'] = $ghApiId;
+        $data['handler'] = $handlerUrl;
+
+        $method = 'POST';
+        $result = self::callRemoteFunc($url, $data, $method);
+
+        if(isset($result)) {
+            return true;
+        } else {
+            throw new WxAppException('无法注册 关注事件处理接口，请稍后重试');
+        }
+    }
+
+    public static function setUnSubscribeHandler($ghApiId, $handlerUrl)
+    {
+        $url = self::WX_API_HOME_URL . 'setUnSubscribeHandler';
+
+        $data['ghId'] = $ghApiId;
+        $data['handler'] = $handlerUrl;
+
+        $method = 'POST';
+        $result = self::callRemoteFunc($url, $data, $method);
+
+        if(isset($result)) {
+            return true;
+        } else {
+            throw new WxAppException('无法注册 取消关注事件处理接口，请稍后重试');
+        }
+    }
+
 }
