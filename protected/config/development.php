@@ -45,6 +45,15 @@ return CMap::mergeArray(
                 ),
 
             ),
+
+            /**
+             * 访问微信api时，需初始化的信息
+             */
+            'wxApiHelper' => array(
+                "class" => "application.modules.wechat.components.wxUtil.ZtWxApiHelper",
+                "hostUrl" => "http://core.wx.dev.zhengtuo.net/wxApi/admin/",
+            ),
+
         ),
         'modules' => array(
             // uncomment the following to enable the Gii tool

@@ -8,17 +8,30 @@
  */
 
 class ZtWxApiAdapter {
-    // 根据不同的发布环境，选择不同的url
-    //for dev test
-    const WX_API_HOME_URL = 'http://core.wx.dev.zhengtuo.net/wxApi/admin/';
-
-    // for demo
-//    const WX_API_HOME_URL = 'http://core.wx.demo.zhengtuo.net/wxApi/admin/';
-
-    // for release
-//    const WX_API_HOME_URL = 'http://core.wx.51fc.com.cn/wxApi/admin/';
-
     const WX_API_SUCCESS_CODE = 0;
+
+    private static $remoteHelper;
+
+    private static function initHelper(){
+        if(!isset(self::$remoteHelper)){
+            //如果远程调用者尚未被初始化，则创建之：
+            self::$remoteHelper = Yii::app()->wxApiHelper;
+        }
+    }
+
+    public static function attachHelper($helper){
+        //接受外界给的helper对象
+        if(! $helper instanceof ZtWxApiHelper) {
+            throw new Exception(sprintf( WxExceptionMessage::PARAM_TYPE_ERROR, __METHOD__, 'ZtWxApiHelper'));
+        }
+
+        self::$remoteHelper = $helper;
+    }
+
+    public static function detachHelper(){
+        //将helper解绑（以后再调用，则会使用默认的helper）
+        self::$remoteHelper = null;
+    }
 
     private static function callRemoteFunc($url, $data,
                                            $method = 'GET') {
@@ -26,9 +39,15 @@ class ZtWxApiAdapter {
         //添加ApiClientToken
         $data['APIClientToken'] = '51fc_WxAdmin';
 
-        $callResult = CommonFunction::callHttp($url,$data,$method);
+//        $callResult = CommonFunction::callHttp($url,$data,$method);
+        $callResult = self::$remoteHelper->callRemoteFunc($url, $data, $method);
 
         try {
+            if(empty($callResult)) {
+                //说明返回的并不是有效的响应数据：
+                throw new Exception('获取的结果不合法：' . $callResult);
+            }
+
             $json = FastJSON::decode($callResult);
             if(!isset($json['responseCode'])) {
                 //说明返回的并不是有效的响应数据：
@@ -43,14 +62,15 @@ class ZtWxApiAdapter {
         } catch(WxAppException $ex) {
             throw $ex;
         } catch(Exception $ex) {
-            Yii::log('调用远程WxApi['. $url .']时出错：' . $ex->getMessage(), 'error');
+            LogWriter::error('调用远程WxApi['. $url .']时出错：' . $ex->getMessage());
             return null;
         }
 
     }
 
     public static function registerGH($ghId, $ghName, $appId, $appSecret, $ghDesc = '') {
-        $url  = self::WX_API_HOME_URL . 'registerGh';
+        self::initHelper();
+        $url  = self::$remoteHelper->hostUrl . 'registerGh';
         $data = array(
             'ghId' => $ghId,
             'ghName' => $ghName,
@@ -73,6 +93,8 @@ class ZtWxApiAdapter {
                 'ghApiId' => $resultObj['id'],
                 'ghUrl' => $resultObj['url'],
                 'ghToken' => $resultObj['token'],
+                'ghName' => $resultObj['ghName'],
+                'ghId' => $resultObj['ghId'],
             );
         } else {
             throw new WxAppException('无法注册公众号，请联系管理员');
@@ -81,9 +103,10 @@ class ZtWxApiAdapter {
 
     public static function addTempQrScene($ghApiId, $expireTime, $callBackUrl, $params, $desc)
     {
+        self::initHelper();
 
-        $urlAddQr  = self::WX_API_HOME_URL . 'addTempQrScene';
-        $urlGetQrUrl = self::WX_API_HOME_URL . 'getQrImageUrl';
+        $urlAddQr  = self::$remoteHelper->hostUrl . 'addTempQrScene';
+        $urlGetQrUrl = self::$remoteHelper->hostUrl . 'getQrImageUrl';
 
         $data = array(
             'ghId' => $ghApiId,
@@ -140,7 +163,9 @@ class ZtWxApiAdapter {
      */
     public static function getUserInfo($ghApiId, $userOpenId)
     {
-        $url  = self::WX_API_HOME_URL . 'getWxUserInfo';
+        self::initHelper();
+
+        $url  = self::$remoteHelper->hostUrl . 'getWxUserInfo';
         $data = array(
             'id' => $ghApiId,
             'openId' => $userOpenId,
@@ -175,7 +200,9 @@ class ZtWxApiAdapter {
      */
     public static function addLimitQrScene($ghApiId, $sceneId, $callBackUrl, $params, $desc)
     {
-        $urlAddQr  = self::WX_API_HOME_URL . 'addLimitQrScene';
+        self::initHelper();
+
+        $urlAddQr  = self::$remoteHelper->hostUrl . 'addLimitQrScene';
 
         $data = array(
             'ghId' => $ghApiId,
@@ -206,7 +233,9 @@ class ZtWxApiAdapter {
      */
     public static function getQrImageUrl($ghApiId, $sceneId)
     {
-        $urlGetQrUrl = self::WX_API_HOME_URL . 'getQrImageUrl';
+        self::initHelper();
+
+        $urlGetQrUrl = self::$remoteHelper->hostUrl . 'getQrImageUrl';
         $data = array(
             'ghId' => $ghApiId,
             'sceneId' => $sceneId,
@@ -236,7 +265,9 @@ class ZtWxApiAdapter {
      */
     public static function sendCustomTextMessage($ghApiId, $openId, $message)
     {
-        $urlAddQr  = self::WX_API_HOME_URL . 'sendCustomTextMessage';
+        self::initHelper();
+
+        $urlAddQr  = self::$remoteHelper->hostUrl . 'sendCustomTextMessage';
 
         $data = array(
             'ghId' => $ghApiId,
@@ -257,7 +288,9 @@ class ZtWxApiAdapter {
 
     public static function addMainMenu($ghApiId, $menuProperties)
     {
-        $url = self::WX_API_HOME_URL . 'addMainMenu';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'addMainMenu';
         $data = $menuProperties;
 
         $data['ghId'] = $ghApiId;
@@ -274,7 +307,9 @@ class ZtWxApiAdapter {
 
     public static function addSubMenu($ghApiId, $menuProperties)
     {
-        $url = self::WX_API_HOME_URL . 'addSubMenu';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'addSubMenu';
         $data = $menuProperties;
 
         $data['ghId'] = $ghApiId;
@@ -290,7 +325,9 @@ class ZtWxApiAdapter {
 
     public static function refreshMenu($ghApiId)
     {
-        $url = self::WX_API_HOME_URL . 'refreshMenu';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'refreshMenu';
         $data = array();
 
         $data['ghId'] = $ghApiId;
@@ -307,7 +344,9 @@ class ZtWxApiAdapter {
 
     public static function removeAllMenus($ghApiId)
     {
-        $url = self::WX_API_HOME_URL . 'removeAllMenus';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'removeAllMenus';
         $data = array();
 
         $data['ghId'] = $ghApiId;
@@ -339,7 +378,9 @@ class ZtWxApiAdapter {
                                             $answerHandler, $userLeftHandler, $userLeavingHandler = '', $expiredHandler = '',
                                             $expireMinutes = 600, $desc = '')
     {
-        $url = self::WX_API_HOME_URL . 'openConversation';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'openConversation';
         $data = array();
 
         $data['ghId'] = $ghApiId;
@@ -364,7 +405,9 @@ class ZtWxApiAdapter {
     }
 
     public static function closeConversation($openId) {
-        $url = self::WX_API_HOME_URL . 'closeConversation';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'closeConversation';
         $data = array();
 
         $data['openId'] = $openId;
@@ -382,7 +425,9 @@ class ZtWxApiAdapter {
 
     public static function getFileUrl($fileId, $ghApiId)
     {
-        $url = self::WX_API_HOME_URL . 'getFileUrl';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'getFileUrl';
         $data = array();
 
         $data['fileId'] = $fileId;
@@ -400,7 +445,9 @@ class ZtWxApiAdapter {
 
     public static function getJsApiSignPackage($ghApiId, $targetUrl)
     {
-        $url = self::WX_API_HOME_URL . 'getJsApiSignPackage';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'getJsApiSignPackage';
         $data = array();
 
         $data['url'] = $targetUrl;
@@ -423,13 +470,16 @@ class ZtWxApiAdapter {
      * @param $targetUrl
      * @param $topColor
      * @param $content
-     * @param $toUsers
+     * @param $toUsers  //is an array in which each element has at least 2 properties: openId (must) and params (optional)
+     * @param int $oAuth
      * @return bool
      * @throws WxAppException
      */
-    public static function batchSendTemplateMessage($ghId, $templateId, $targetUrl, $topColor, $content, $toUsers)
+    public static function batchSendTemplateMessage($ghId, $templateId, $targetUrl, $topColor, $content, $toUsers, $oAuth = 0)
     {
-        $url = self::WX_API_HOME_URL . 'templateMessageBatchSend';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'templateMessageBatchSend';
         $data = array();
 
         $data['ghId'] = $ghId;
@@ -438,6 +488,7 @@ class ZtWxApiAdapter {
         $data['topColor'] = $topColor;
         $data['data'] = FastJSON::encode($content);
         $data['toUsers'] = FastJSON::encode($toUsers);
+        $data['oAuth'] = $oAuth;
 
         $method = 'POST';
         $result = self::callRemoteFunc($url, $data, $method);
@@ -459,12 +510,15 @@ class ZtWxApiAdapter {
      * @param $topColor
      * @param $content
      * @param $toUser
+     * @param int $oAuth
      * @return bool
      * @throws WxAppException
      */
-    public static function sendTemplateMessage($ghId, $templateId, $targetUrl, $topColor, $content, $toUser)
+    public static function sendTemplateMessage($ghId, $templateId, $targetUrl, $topColor, $content, $toUser, $oAuth = 0)
     {
-        $url = self::WX_API_HOME_URL . 'templateMessageSend';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'templateMessageSend';
         $data = array();
 
         $data['ghId'] = $ghId;
@@ -473,6 +527,7 @@ class ZtWxApiAdapter {
         $data['topColor'] = $topColor;
         $data['data'] = FastJSON::encode($content);
         $data['toUser'] = $toUser;
+        $data['oAuth'] = $oAuth;
 
         $method = 'POST';
         $result = self::callRemoteFunc($url, $data, $method);
@@ -487,7 +542,9 @@ class ZtWxApiAdapter {
 
     public static function setMessageHandler($ghApiId, $handlerUrl)
     {
-        $url = self::WX_API_HOME_URL . 'setMessageHandler';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'setMessageHandler';
 
         $data['ghId'] = $ghApiId;
         $data['handler'] = $handlerUrl;
@@ -504,7 +561,9 @@ class ZtWxApiAdapter {
 
     public static function setSubscribeHandler($ghApiId, $handlerUrl)
     {
-        $url = self::WX_API_HOME_URL . 'setSubscribeHandler';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'setSubscribeHandler';
 
         $data['ghId'] = $ghApiId;
         $data['handler'] = $handlerUrl;
@@ -521,7 +580,9 @@ class ZtWxApiAdapter {
 
     public static function setUnSubscribeHandler($ghApiId, $handlerUrl)
     {
-        $url = self::WX_API_HOME_URL . 'setUnSubscribeHandler';
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'setUnSubscribeHandler';
 
         $data['ghId'] = $ghApiId;
         $data['handler'] = $handlerUrl;
@@ -536,4 +597,56 @@ class ZtWxApiAdapter {
         }
     }
 
+    public static function setUrlVerifiedHandler($ghApiId, $handlerUrl)
+    {
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'setUrlVerifiedHandler';
+
+        $data['ghId'] = $ghApiId;
+        $data['handler'] = $handlerUrl;
+
+        $method = 'POST';
+        $result = self::callRemoteFunc($url, $data, $method);
+
+        if(isset($result)) {
+            return true;
+        } else {
+            throw new WxAppException('无法注册 url验证通过事件处理接口，请稍后重试');
+        }
+    }
+
+    /**
+     * @param $ghApiId
+     * @param $code
+     * @return array 内部结构如下：
+     *
+     * {
+     *   "access_token":"ACCESS_TOKEN",
+     *   "expires_in":7200,
+     *   "refresh_token":"REFRESH_TOKEN",
+     *   "openid":"OPENID",
+     *   "scope":"SCOPE",
+     *   "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL"  //仅当第三方平台设置过
+     * }
+
+     * @throws WxAppException
+     */
+    public static function getPageAuthAccessToken($ghApiId, $code){
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'getPageAuthAccessToken';
+
+        $data['id'] = $ghApiId;
+        $data['code'] = $code;
+
+        $method = 'GET';
+        $result = self::callRemoteFunc($url, $data, $method);
+
+        if(isset($result)) {
+            return $result['data'][0];
+        } else {
+            throw new WxAppException('无法获取微信页面验证信息，请稍后重试');
+        }
+    }
 }

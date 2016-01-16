@@ -25,7 +25,16 @@ return CMap::mergeArray(
 					)
 				),
 			),
-		),
+
+            /**
+             * 访问微信api时，需初始化的信息
+             */
+            'wxApiHelper' => array(
+                "class" => "application.modules.wechat.components.wxUtil.ZtWxApiHelper",
+                "hostUrl" => "http://core.wx.zhengtuo.net/wxApi/admin/",
+            ),
+
+        ),
 
         'params'=>array(
             //暂存微信工号的id
