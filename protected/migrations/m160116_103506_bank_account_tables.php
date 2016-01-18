@@ -183,6 +183,23 @@ class m160116_103506_bank_account_tables extends CDbMigration {
             ALTER TABLE `account_auto_save`
              ADD PRIMARY KEY (`subAccountId`);
 
+            -- --------------------------------------------------------
+
+            --
+            -- 表的结构 `sys_options`
+            --
+
+            CREATE TABLE IF NOT EXISTS `sys_options` (
+              `optionName` varchar(50) NOT NULL COMMENT '选项名称',
+              `optionValue` varchar(256) NOT NULL COMMENT '选项值'
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置项';
+
+            --
+            -- Indexes for table `sys_options`
+            --
+            ALTER TABLE `sys_options`
+             ADD PRIMARY KEY (`optionName`);
+
         ";
 
         $this->execute($sql);

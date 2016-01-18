@@ -127,7 +127,7 @@ class Bank extends CActiveRecord
             ));
 
             if($pTrans !== null){
-                //If there is transaction in caller, the exception shall be thrown to caller.
+                //If there is transaction in caller, the exception must be thrown to caller.
                 throw new Exception(sprintf(BankMessages::ERR_MODEL_SAVING_FAILED, 'Bank'));
             }
         }

@@ -37,4 +37,21 @@ class LogWriter
 
     }
 
+    const DEBUG_MODE = true;
+
+    public static function trace($logContent){
+        if(self::DEBUG_MODE){
+            Yii::log('[WxApp Tracing]' . $logContent, 'trace');
+        }
+    }
+
+    public static function warning($logContent) {
+        Yii::log('[WxApp Warning]' . $logContent, 'warning');
+    }
+
+    public static function error($logContent) {
+        Yii::log('[WxApp Error]' . $logContent, 'error');
+    }
+
+
 }
