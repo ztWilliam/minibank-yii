@@ -22,6 +22,8 @@ return array(
 		'application.models.*',
 		'application.components.*',
 
+        'application.modules.bank.components.*',
+
         'application.modules.wechat.components.*',
         'application.modules.wechat.components.baseUtil.*',
         'application.modules.wechat.components.wxUtil.*',

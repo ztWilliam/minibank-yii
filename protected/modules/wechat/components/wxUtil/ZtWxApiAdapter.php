@@ -649,4 +649,31 @@ class ZtWxApiAdapter {
             throw new WxAppException('无法获取微信页面验证信息，请稍后重试');
         }
     }
+
+    /**
+     * @param $ghApiId
+     * @param $redirectUrl
+     * @param string $scope  'basic' for basic url, 'userinfo' for userInfo url
+     * @return mixed
+     * @throws WxAppException
+     */
+    public static function getAuthUrl($ghApiId, $redirectUrl, $scope = 'basic'){
+        self::initHelper();
+
+        $url = self::$remoteHelper->hostUrl . 'getAuthUrl';
+
+        $data['id'] = $ghApiId;
+        $data['url'] = $redirectUrl;
+        $data['scope'] = $scope;
+
+        $method = 'GET';
+        $result = self::callRemoteFunc($url, $data, $method);
+
+        if(isset($result)) {
+            return $result['data'][0];
+        } else {
+            throw new WxAppException('无法获取微信页面验证信息，请稍后重试');
+        }
+
+    }
 }

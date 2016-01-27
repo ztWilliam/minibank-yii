@@ -142,7 +142,7 @@ class User extends CActiveRecord{
 
     }
 
-    public function createNewUser($openId){
+    public static function createNewUser($openId){
 
         //
         $wxApiId = SystemOption::getWeChatApiId();
@@ -186,6 +186,18 @@ class User extends CActiveRecord{
         }
 
         return $user;
+
+    }
+
+    public function activate(){
+        $this->isActive = self::USER_STATUS_ACTIVE_FALSE;
+
+        if(!$this->save()){
+            LogWriter::logModelSaveError($this, __METHOD__,
+                array('userId' => $this->userId, 'nickName' => $this->nickName));
+
+            throw new Exception(sprintf(CommonMessage::OBJECT_SAVE_ERROR, 'User'));
+        }
 
     }
 }

@@ -73,9 +73,13 @@ class WechatMenu {
         );
     }
 
-    private static function create($ghApiId){
+    private static function create($ghApiId, $newMenu = null){
         //获取菜单项设置：
-        $menuItems = self::menuItems();
+        if(!isset($newMenu)) {
+            $menuItems = self::menuItems();
+        } else {
+            $menuItems = $newMenu;
+        }
 
         // 注册菜单：
         self::registerMenus($ghApiId, $menuItems);
@@ -85,12 +89,12 @@ class WechatMenu {
 
     }
 
-    public static function refresh($ghApiId){
+    public static function refresh($ghApiId, $newMenu = null){
         // 先删除现有微信菜单
         ZtWxApiAdapter::removeAllMenus($ghApiId);
 
         // 构建微信菜单
-        self::create($ghApiId);
+        self::create($ghApiId, $newMenu);
 
     }
 

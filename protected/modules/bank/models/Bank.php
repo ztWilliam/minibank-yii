@@ -38,7 +38,7 @@ class Bank extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('bankId, bankName, createUserId, createTime, delTag', 'required'),
+            array('bankId, bankName, createUserId, createTime', 'required'),
             array('delTag', 'numerical', 'integerOnly'=>true),
             array('bankId, createUserId', 'length', 'max'=>64),
             array('createTime', 'length', 'max'=>20),
@@ -93,6 +93,14 @@ class Bank extends CActiveRecord
         ));
     }
 
+    const DELETE_TAG_TRUE = 1;
+    const DELETE_TAG_FALSE = 0;
+
+    private $statusChecked = false;
+    private $passwordSet = true;
+    private $interestRateSet = true;
+    private $bankInfoSet = true;
+
     public static function createBank($userId, $bankName, $pTrans = null)
     {
         //create a new Bank object, and save it to DB.
@@ -117,7 +125,7 @@ class Bank extends CActiveRecord
         $newBank->bankId = CommonFunction::create_guid_timestamp($newBank->createTime);
         $newBank->bankName = $bankName;
         $newBank->createUserId = $userId;
-        $newBank->delTag = 0;
+        $newBank->delTag = self::DELETE_TAG_FALSE;
 
         if(!$newBank->save()){
             LogWriter::logModelSaveError($newBank, __METHOD__, array(
@@ -133,6 +141,58 @@ class Bank extends CActiveRecord
         }
 
         return $newBank;
+    }
+
+
+    /**
+     * @param $userId
+     * @return Bank|null
+     */
+    public static function findByUser($userId)
+    {
+        if(empty($userId)){
+            return null;
+        }
+
+        return self::model()->findByAttributes(array('createUserId' => $userId, 'delTag' => self::DELETE_TAG_FALSE));
+    }
+
+
+    public function infoCompleted($userId){
+        // is the admin password set?
+        $this->passwordSet = BankAdminPass::hasPassword($this->bankId, $userId);
+
+        // is the interest rate set?
+        $this->interestRateSet = BankInterestRate::hasActiveRate($this->bankId);
+
+
+        // is the bank info create?
+        if(empty($this->bankName) || ($this->bankName == CommonDefinition::FIELD_NOT_DEFINED)) {
+            $this->bankInfoSet = false;
+        } else {
+            $this->bankInfoSet = true;
+        }
+
+
+        return $this->passwordSet && $this->interestRateSet && $this->bankInfoSet;
+    }
+
+    public function whatNeedSet(){
+        $tip = '';
+
+        if(!$this->bankInfoSet){
+            $tip .= BankMessages::TIP_MESSAGE_BANK_INFO_NOT_SET . PHP_EOL;
+        }
+
+        if(!$this->interestRateSet) {
+            $tip .= BankMessages::TIP_MESSAGE_BANK_INTEREST_NOT_SET . PHP_EOL;
+        }
+
+        if(!$this->passwordSet) {
+            $tip .= BankMessages::TIP_MESSAGE_BANK_PASSWORD_NOT_SET;
+        }
+
+        return $tip;
     }
 
 }

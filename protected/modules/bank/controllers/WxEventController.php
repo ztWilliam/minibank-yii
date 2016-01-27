@@ -1,13 +1,12 @@
 <?php
 /**
- * This controller is a set of actions which process any event messages
- * from WeChat server.
- * The event messages are those like menu clicked, qr scaned, subscribed and many others.
- *
- * The actions must return message in the format of WeChat standard :
- *
+ * 
+ * User: william
+ * Date: 16/1/18
+ * Time: 上午11:24
  */
-class EventApiController extends Controller {
+
+class WxEventController  extends Controller {
 
     /**
      * Sample action:
@@ -62,7 +61,7 @@ class EventApiController extends Controller {
      */
     public function actionSubscribed(){
         $eventObj = WeChatRequest::extractEventObj($_POST);
-        $result = WeChatEventHandler::functionNotReady($eventObj);
+        $result = BankWxEventHandler::userSubscribed($eventObj);
         echo $result;
     }
 }

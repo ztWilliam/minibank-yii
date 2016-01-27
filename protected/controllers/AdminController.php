@@ -33,10 +33,14 @@ class AdminController extends Controller {
     }
 
     public function actionRefreshMenu(){
-        //todo 重新刷新微信的菜单
-        $ghApiId = Yii::app()->params['ghDefinition']['ghApiId'];
+        // 重新刷新微信的菜单
+        $ghApiId = SystemOption::getWeChatApiId();
         if($ghApiId > 0) {
-            WechatMenu::refresh($ghApiId);
+            // 注册关注事件处理
+            $subscribedHandler = Yii::app()->createAbsoluteUrl(CommonDefinition::USER_SUBSCRIBED_HANDLER);
+            ZtWxApiAdapter::setSubscribeHandler($ghApiId, $subscribedHandler);
+
+            WechatMenu::refresh($ghApiId, BankWxMenu::menuItems());
         } else {
             echo '公众号尚未注册';
         }

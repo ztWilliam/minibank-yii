@@ -6,8 +6,7 @@
  * Time: 下午4:16
  * To change this template use File | Settings | File Templates.
  */
-Yii::import('application.modules.trip.components.*');
-Yii::import('application.modules.trip.models.*');
+
 class WeChatEventHandler {
 
     public static function functionNotReady($eventObj)
