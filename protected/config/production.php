@@ -5,17 +5,20 @@ return CMap::mergeArray(
 	array(
 		'components'=>array(
 			// uncomment the following to use a MySQL database
-//			'db'=>array(
-//				'connectionString'=>'mysql:host=localhost;dbname=zsztcms',
-//				'emulatePrepare'=>true,
-//				'username'=>'root',
-//				'password'=>'gordon_8018',  //zhengtuo&*(cms
-//				'charset'=>'utf8',
-//				'tablePrefix'=>'',
-//				'enableProfiling'=>false,
-//				'schemaCachingDuration'=>3600,
-//				'enableParamLogging'=>false,
-//			),
+            'db' => array(
+                'connectionString' => 'mysql:host=[YOUR DB HOST];dbname=[YOUR DB NAME]',
+
+                'class' => 'CDbConnection',
+                'emulatePrepare' => true,
+                'username' => '[YOUR_DB_USER]',
+                'password' => '[YOUR_DB_PASSWORD]',
+
+                'charset' => 'utf8',
+                'tablePrefix' => '',
+                'enableProfiling' => true,
+                'schemaCachingDuration' => 0,
+                'enableParamLogging' => true,
+            ),
 			'log'=>array(
 				'class'=>'CLogRouter',
 				'routes'=>array(
@@ -37,8 +40,16 @@ return CMap::mergeArray(
         ),
 
         'params'=>array(
-            //暂存微信工号的id
-            'ghApiId' => -1,
+            //It is recommed that you should save the information to your database.
+            //暂存微信公众号的id
+            'ghDefinition' => array(
+                'ghApiId' => '[YOUR_ID]', //after registration, you must update this api id
+                'ghName' => '[YOUR_NAME]',
+                'ghId' => '[YOUR_GH_ID]',
+                'appId' => '[YOUR_APP_ID]',
+                'secret' => '[YOUR_APP_SECRET]',
+                'ghDesc' => '[YOUR_DESCRIPTION]',
+            ),
         ),
     )
 );

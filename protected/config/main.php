@@ -57,6 +57,7 @@ return array(
 	'modules'=>array(
         'wechat'=>array(),
         'wap' => array(),
+        'bank' => array(),
 	),
 
 	// application-level parameters that can be accessed

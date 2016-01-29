@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class BankModule {
+class BankModule extends CWebModule{
 
     private $_assetsUrl;
 

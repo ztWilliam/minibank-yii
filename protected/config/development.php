@@ -5,20 +5,20 @@ return CMap::mergeArray(
     array(
         'components' => array(
             // uncomment the following to use a MySQL database
-//            'db' => array(
-//                'connectionString' => 'mysql:host=localhost;dbname=ztcms',
-//
-//                'class' => 'CDbConnection',
-//                'emulatePrepare' => true,
-//                'username' => 'ztcms',
-//                'password' => 'ztcms+0205',
-//
-//                'charset' => 'utf8',
-//                'tablePrefix' => '',
-//                'enableProfiling' => true,
-//                'schemaCachingDuration' => 0,
-//                'enableParamLogging' => true,
-//            ),
+            'db' => array(
+                'connectionString' => 'mysql:host=[YOUR DB HOST];dbname=[YOUR DB NAME]',
+
+                'class' => 'CDbConnection',
+                'emulatePrepare' => true,
+                'username' => '[YOUR_DB_USER]',
+                'password' => '[YOUR_DB_PASSWORD]',
+
+                'charset' => 'utf8',
+                'tablePrefix' => '',
+                'enableProfiling' => true,
+                'schemaCachingDuration' => 0,
+                'enableParamLogging' => true,
+            ),
             'log' => array(
                 'class' => 'CLogRouter',
                 'routes' => array(
@@ -26,9 +26,9 @@ return CMap::mergeArray(
                         'class' => 'CFileLogRoute',
                         'levels' => 'error, warning, trace',
                     ),
-                    array(
-                        'class' => 'CProfileLogRoute',
-                    ),
+//                    array(
+//                        'class' => 'CProfileLogRoute',
+//                    ),
                     /*
                     array(
                         'class'=>'CWebLogRoute',
